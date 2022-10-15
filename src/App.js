@@ -1,5 +1,30 @@
+import { useState } from "react";
+import ClientDetail from "./components/ClientDetail";
+import Date from "./components/Date";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import MainDetails from "./components/MainDetails";
+import Notes from "./components/Notes";
+import Table from "./components/Table";
 
 function App() {
+
+  const[showInvoice, setShowInvoice] = useState(false)
+  const[sellerName, setSellerName] = useState("")
+  const[sellerAddress, setSellerAddress] = useState("")
+  const[sellerEmail, setSellerEmail] = useState("")
+  const[sellerPhone, setSellerPhone] = useState("")
+  const[sellerBank, setSellerBank] = useState("")
+  const[sellerBankAccount, setSellerBankAccount] = useState("")
+  const[sellerBankIfsc, setSellerBankIfsc] = useState("")
+  const[customerName, setCustomerName] = useState("")
+  const[customerAddress, setCustomerAddress] = useState("")
+  const[invoiceNo, setInvoiceNo] = useState("")
+  const[invoiceDate, setInvoiceDate] = useState("")
+  const[dueDate, setDueDate] = useState("")
+  const[notes, setNotes] = useState("")
+  
+
 
   const handlePrint = () =>{
     window.print();
@@ -7,72 +32,176 @@ function App() {
 
   return (
     <div className="App">
-      <main className="m-5 xl:max-w-4xl xl:mx-auto bg-white rounded shadow">
-        {/* Heading and Functions */}
-        <header className="flex flex-col items-center justify-center mb-5 xl:flex-row xl:justify-between">
-          <div>
-            <h1 className="font-bold uppercase
-            tracking-wide text-4xl mb-3">Invoice</h1>
+      <main className="m-5 p-5 md:max-w-xl md:mx-auto lg:max-w-2xl xl:max-w-4xl bg-white rounded shadow">
+        {showInvoice ?
+        (<div>
+        <Header  handlePrint = {handlePrint}/>
+        <MainDetails sellerName = {sellerName} sellerAddress={sellerAddress} />
+        <ClientDetail customerName={customerName} customerAddress={customerAddress}/>       
+        <Date invoiceNo={invoiceNo} invoiceDate={invoiceDate} dueDate={dueDate}/>
+        <Table /> 
+        <Notes notes={notes}/>
+        <Footer 
+        sellerName={sellerName} 
+        sellerEmail={sellerEmail}
+        sellerPhone={sellerPhone}
+        sellerBank={sellerBank}
+        sellerBankAccount={sellerBankAccount}
+        sellerBankIfsc={sellerBankIfsc}
+        />  
+        <button onClick={()=>{setShowInvoice(false)}}
+        className="mt-5 bg-blue-500 text-white font-bold
+        py-2 px-8 rounded shadow border-2
+        border-blue-500 hover:bg-transparent
+        hover:text-blue-500 transistion-all duration-300">
+        Edit Information
+        </button>
+      </div>)
+      :(
+        <>
+        {/* seller name, seller address, seller email, seller phone number, seller bank name, seller bank account number, 
+        seller bank IFSC, customer name, customer address, invoice number, invoice date, due date, notes */}
+          <div className="flex flex-col justify-center">
+            <label htmlFor="sellerName">Seller Name: </label>
+            <input 
+              type="text" 
+              name="sellerName" 
+              id="sellerName" 
+              placeholder="Enter Seller Name" 
+              autoComplete="off" 
+              value={sellerName}
+              onChange={(e)=>{setSellerName(e.target.value)}} 
+            />
+            <label htmlFor="sellerAddress">Seller Address: </label>
+            <input 
+              type="text" 
+              name="sellerAddress" 
+              id="sellerAddress" 
+              placeholder="Enter Seller Address" 
+              autoComplete="off" 
+              value={sellerAddress}
+              onChange={(e)=>{setSellerAddress(e.target.value)}} 
+            />
+            <label htmlFor="sellerEmail">Seller Email: </label>
+            <input 
+              type="email" 
+              name="sellerEmail" 
+              id="sellerEmail" 
+              placeholder="Enter Seller Email" 
+              autoComplete="off" 
+              value={sellerEmail}
+              onChange={(e)=>{setSellerEmail(e.target.value)}} 
+            />
+            <label htmlFor="sellerPhone">Seller Phone: </label>
+            <input 
+              type="Number" 
+              name="sellerPhone" 
+              id="sellerPhone" 
+              placeholder="Enter Seller Phone" 
+              autoComplete="off" 
+              value={sellerPhone}
+              onChange={(e)=>{setSellerPhone(e.target.value)}} 
+            />
+            <label htmlFor="sellerBankName">Seller Bank: </label>
+            <input 
+              type="text" 
+              name="sellerBankName" 
+              id="sellerBankName" 
+              placeholder="Enter Seller Bank Name" 
+              autoComplete="off" 
+              value={sellerBank}
+              onChange={(e)=>{setSellerBank(e.target.value)}} 
+            />
+            <label htmlFor="sellerBankAccount">Seller Account: </label>
+            <input 
+              type="text" 
+              name="sellerBankAccount" 
+              id="sellerBankAccount" 
+              placeholder="Enter Seller Bank Account" 
+              autoComplete="off" 
+              value={sellerBankAccount}
+              onChange={(e)=>{setSellerBankAccount(e.target.value)}}
+            /> 
+            <label htmlFor="sellerBankIfsc">Seller Bank IFSC code: </label>
+            <input 
+              type="text" 
+              name="sellerBankIfsc" 
+              id="sellerBankIfsc" 
+              placeholder="Enter Seller Bank IFSC code" 
+              autoComplete="off" 
+              value={sellerBankIfsc}
+              onChange={(e)=>{setSellerBankIfsc(e.target.value)}} 
+            />
+            <label htmlFor="customerName">Customer Name: </label>
+            <input 
+              type="text" 
+              name="customerName" 
+              id="customerName" 
+              placeholder="Enter Customer Name" 
+              autoComplete="off" 
+              value={customerName}
+              onChange={(e)=>{setCustomerName(e.target.value)}} 
+            />
+            <label htmlFor="customerAddress">Customer Address: </label>
+            <input 
+              type="text" 
+              name="customerAddress" 
+              id="customerAddress" 
+              placeholder="Enter Customer Address" 
+              autoComplete="off" 
+              value={customerAddress}
+              onChange={(e)=>{setCustomerAddress(e.target.value)}} 
+            />
+            <label htmlFor="invoiceNo">Invoice Number: </label>
+            <input 
+              type="text" 
+              name="invoiceNo" 
+              id="invoiceNo" 
+              placeholder="Enter Invoice Number" 
+              autoComplete="off" 
+              value={invoiceNo}
+              onChange={(e)=>{setInvoiceNo(e.target.value)}} 
+            />
+            <label htmlFor="invoiceDate">Invoice Date: </label>
+            <input 
+              type="date" 
+              name="invoiceDate" 
+              id="invoiceDate" 
+              placeholder="Enter Invoice Date" 
+              autoComplete="off" 
+              value={invoiceDate}
+              onChange={(e)=>{setInvoiceDate(e.target.value)}} 
+            />
+            <label htmlFor="dueDate">Due Date: </label>
+            <input 
+              type="date" 
+              name="dueDate" 
+              id="dueDate" 
+              placeholder="Enter Due Date" 
+              autoComplete="off" 
+              value={dueDate}
+              onChange={(e)=>{setDueDate(e.target.value)}} 
+            />
+            <label htmlFor="notes">Notes: </label>
+            <textarea name="notes" 
+              id="notes" 
+              cols="30" 
+              rows="10" 
+              placeholder="Additional Notes For the Customer" 
+              value={notes} 
+              onChange={(e)=>{setNotes(e.target.value)}}
+            ></textarea>
+            <button onClick={()=>{setShowInvoice(true)}}
+              className="bg-blue-500 text-white font-bold
+              py-2 px-8 rounded shadow border-2
+              border-blue-500 hover:bg-transparent
+              hover:text-blue-500 transistion-all duration-300">
+              Preview Invoice
+            </button>
           </div>
-
-          <div>
-            <ul className="flex items-center justify-between flex-wrap">
-              <li><button onClick={handlePrint}
-              className="btn btn-print">Print</button></li>
-              <li><button className="btn btn-download">Download</button></li>
-              <li><button className="btn btn-send">Send</button></li>
-            </ul>
-          </div> 
-        </header>
-        {/* End of heading and functions */}
-
-        {/* Seller Details */}
-        <section className="flex flex-col items-end justify-end">
-           <h2 className="text-xl uppercase">Sundaram Steel</h2>
-           <p>Seller address</p>
-        </section>
-        {/* End of seller details */}
-
-        {/* Customer Details */}
-        <section className="mt-5">
-          <h2 className="text-xl uppercase">Customer Name</h2>
-          <p>Customer Address</p>
-        </section>
-        {/* End of customer details */}
-
-        {/* Invoice details */}
-          <article className="my-5 flex items-end justify-end">
-            <ul>
-              <li><span className="font-bold">Invoice number:</span></li>
-              <li><span className="font-bold">Invoice date:</span></li>
-              <li><span className="font-bold">Due date:</span></li>
-            </ul>
-          </article>
-        {/* End of invoice details */}
-
-        {/* Product Table */}
-          <div className="my-5">This is the product table</div>
-        {/* End of product table */}
-
-        {/* Invoice notes */}
-          <section className="mb-5">
-            {/* Textarea */}
-            <p>Notes to the customer...</p>
-          </section>
-        {/* End of invoice notes */}
-        {/* Bottom Area */}
-        <footer>
-          <ul className="flex flex-wrap items-center justify-center">
-            <li><span className="font-bold">Seller name:</span> Sundaram Steel</li>
-            <li><span className="font-bold">Seller email:</span> sundaramsteel123@gmail.com</li>
-            <li><span className="font-bold">Phone number:</span> 9842102857</li>
-            <li><span className="font-bold">Bank:</span> Bank of branch</li>
-            <li><span className="font-bold">Account holder:</span> Sundaram Steel</li>
-            <li><span className="font-bold">Account number:</span> 467594000878</li>
-            <li><span className="font-bold">IFSC code:</span> BOBA0004675</li>
-          </ul>
-        </footer>
-        {/* End of bottom area */}
+        </>
+      )
+        }      
       </main>
     </div>
   );
