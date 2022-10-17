@@ -1,8 +1,25 @@
-import React, { useEffect } from "react"
+import React, {useState, useEffect } from "react"
+import {AiOutlineDelete, AiOutlineEdit} from 'react-icons/ai'
 import {v4 as uuidv4} from 'uuid'
 
-export default function TableForm({description,setDescription,quantity,setQuantity,price,setPrice,amount,setAmount,list,setList}) {
+export default function TableForm(
+    {description,
+    setDescription,
+    quantity,
+    setQuantity,
+    price,
+    setPrice,
+    amount,
+    setAmount,
+    list,
+    setList,
+    total,
+    setTotal
+}) {
   
+  const[isEditing, setIsEditing] = useState(false)
+
+  //Submit Form Function
   const handleSubmit =(e) =>{
     e.preventDefault();
     const newItems = {
@@ -17,15 +34,41 @@ export default function TableForm({description,setDescription,quantity,setQuanti
     setPrice("")
     setAmount("")
     setList([...list,newItems])
-    console.log(list);
+    setIsEditing(false)
   }  
 
+  //Calculate amount function
   useEffect(()=>{
     const calAmount =(amount) =>{
         setAmount(quantity*price)
     }
     calAmount(amount)  
   },[price,quantity,amount,setAmount])
+
+  //Calculate total amount
+  useEffect(()=>{
+    let rows = document.querySelectorAll(".amount")
+    let sum = 0
+    for(let i=0;i<rows.length;i++){
+        if(rows[i].className === "amount"){
+            sum+=isNaN(rows[i].innerHTML)?0:parseInt(rows[i].innerHTML)
+            setTotal(sum)
+        }
+    }
+  })
+
+  //Edit row function
+  const editItem =(id)=>{
+    const editingItem = list.find((row)=>row.id===id)
+    setList(list.filter((row)=>row.id===id))
+    setIsEditing(true)
+    setDescription(editingItem.description)
+    setQuantity(editingItem.quantity)
+    setPrice(editingItem.price)
+  }
+
+  //Delete row function
+  const deleteItem =(id)=> setList(list.filter((row) => row.id!==id))
 
   return (
     <>
@@ -69,7 +112,9 @@ export default function TableForm({description,setDescription,quantity,setQuanti
             <button className="mb-5 bg-blue-500 text-white font-bold
             py-2 px-8 rounded shadow border-2
             border-blue-500 hover:bg-transparent
-            hover:text-blue-500 transistion-all duration-300" type="submit">Add Item</button>
+            hover:text-blue-500 transistion-all duration-300" type="submit">
+                {isEditing?"Edit Item":"Add Item"}
+            </button>
         </form>
 
         {/* Table items */}
@@ -89,12 +134,25 @@ export default function TableForm({description,setDescription,quantity,setQuanti
                             <td>{description}</td>
                             <td>{quantity}</td>
                             <td>{price}</td>
-                            <td>{amount}</td>
+                            <td className="amount">{amount}</td>
+                            <td>
+                                <button onClick={()=>{deleteItem(id)}}>
+                                    <AiOutlineDelete className="text-red-500 font-bold text-xl"/>
+                                </button>
+                            </td>
+                            <td>
+                                <button onClick={()=>{editItem(id)}}>
+                                    <AiOutlineEdit className="text-green-500 font-bold text-xl"/>
+                                </button>
+                            </td>
                         </tr>
                     </tbody>
                 </React.Fragment>
             ))}
         </table>
+        <div>
+            <h2 className="text-gray-800 text-4xl font-bold">₹{total.toLocaleString()}</h2>
+        </div>
     </>
   )
 }

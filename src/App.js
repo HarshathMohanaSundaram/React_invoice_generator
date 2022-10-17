@@ -29,6 +29,7 @@ function App() {
   const[price, setPrice] = useState("")
   const[amount, setAmount] = useState("")
   const[list, setList] =useState([])
+  const[total,setTotal] = useState(0)
   
 
 
@@ -52,6 +53,8 @@ function App() {
         amount={amount}
         list={list}
         setList={setList}
+        total = {total}
+        setTotal = {setTotal}
         /> 
         <Notes notes={notes}/>
         <Footer 
@@ -242,6 +245,8 @@ function App() {
                 setAmount={setAmount} 
                 list={list}
                 setList={setList}
+                total={total}
+                setTotal={setTotal}
               />
             </article>
             <label htmlFor="notes">Notes: </label>
