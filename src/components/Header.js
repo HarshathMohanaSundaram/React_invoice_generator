@@ -9,7 +9,7 @@ export default function Header({handlePrint}) {
             tracking-wide text-4xl mb-3">Invoice</h1>
           </div>
 
-          <div>
+          {/* <div>
             <ul className="flex items-center justify-between flex-wrap">
               <li><button onClick={handlePrint}
                   className="bg-gray-500 text-white font-bold
@@ -34,7 +34,7 @@ export default function Header({handlePrint}) {
                    </button>
               </li>
             </ul>
-          </div> 
+          </div>  */}
         </header>
     </>
   )

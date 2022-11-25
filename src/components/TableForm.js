@@ -22,19 +22,25 @@ export default function TableForm(
   //Submit Form Function
   const handleSubmit =(e) =>{
     e.preventDefault();
-    const newItems = {
-        id:uuidv4(),
-        description,
-        quantity,
-        price,
-        amount
+    if(!description || !price || !quantity){
+        alert("Please Fill all the fields")
     }
-    setDescription("")
-    setQuantity("")
-    setPrice("")
-    setAmount("")
-    setList([...list,newItems])
-    setIsEditing(false)
+    else{
+        const newItems = {
+            id:uuidv4(),
+            description,
+            quantity,
+            price,
+            amount
+        }
+        setDescription("")
+        setQuantity("")
+        setPrice("")
+        setAmount("")
+        setList([...list,newItems])
+        setIsEditing(false)
+
+    }
   }  
 
   //Calculate amount function
